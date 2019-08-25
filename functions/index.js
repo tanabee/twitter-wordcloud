@@ -8,7 +8,7 @@ exports.getTweets = functions.https.onCall((data, context) => {
     access_token_key: data.credential.accessToken,
     access_token_secret: data.credential.secret,
   });
-  const params = {screen_name: '_tanabee'};
+  const params = {screen_name: data.userName};
   return client
     .get('statuses/user_timeline', params)
     .then(tweets => {
