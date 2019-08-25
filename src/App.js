@@ -1,20 +1,15 @@
 import React from 'react';
 import * as firebase from 'firebase/app';
 import 'firebase/auth';
+import 'firebase/functions';
 import config from 'util/config';
 import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth';
 
 firebase.initializeApp(config);
 
 const uiConfig = {
-  // Popup signin flow rather than redirect flow.
   signInFlow: 'popup',
-  // We will display Google and Facebook as auth providers.
-  signInOptions: [
-    //firebase.auth.EmailAuthProvider.PROVIDER_ID,
-    //firebase.auth.FacebookAuthProvider.PROVIDER_ID,
-    firebase.auth.TwitterAuthProvider.PROVIDER_ID,
-  ],
+  signInOptions: [firebase.auth.TwitterAuthProvider.PROVIDER_ID],
   callbacks: {
     // Avoid redirects after sign-in.
     signInSuccessWithAuthResult: result => {
@@ -24,7 +19,19 @@ const uiConfig = {
         credential &&
         credential.providerId === firebase.auth.TwitterAuthProvider.PROVIDER_ID
       ) {
-        console.log('Twitter user name=', additionalUserInfo.username);
+        console.log('userinfo', additionalUserInfo);
+        console.log('credential', credential);
+        var getTweets = firebase.functions().httpsCallable('getTweets');
+        getTweets({
+          credential: credential,
+          userName: additionalUserInfo.profile.screen_name,
+        })
+          .then(result => {
+            console.log('result: ', result);
+          })
+          .catch(error => {
+            console.log('error: ', error);
+          });
       }
       return false;
     },
