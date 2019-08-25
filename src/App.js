@@ -11,7 +11,6 @@ const uiConfig = {
   signInFlow: 'popup',
   signInOptions: [firebase.auth.TwitterAuthProvider.PROVIDER_ID],
   callbacks: {
-    // Avoid redirects after sign-in.
     signInSuccessWithAuthResult: result => {
       const {additionalUserInfo, credential} = result;
       if (
