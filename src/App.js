@@ -6,6 +6,10 @@ const useStyles = makeStyles(theme => ({
   root: {
     textAlign: 'center',
   },
+  image: {
+    width: '400px',
+    maxWidth: '100%',
+  },
 }));
 
 function App() {
@@ -19,7 +23,11 @@ function App() {
 
   return (
     <div className={classes.root}>
-      <img src="/images/wordcloud.jpg" title="Twitter WordCloud" />
+      <img
+        className={classes.image}
+        src="/images/wordcloud.jpg"
+        title="Twitter WordCloud"
+      />
       <FirebaseAuth onFetchedTweets={onFetchedTweets} />
     </div>
   );
