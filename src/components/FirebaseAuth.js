@@ -7,37 +7,38 @@ import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth';
 
 firebase.initializeApp(config);
 
-const uiConfig = {
-  signInFlow: 'popup',
-  signInOptions: [firebase.auth.TwitterAuthProvider.PROVIDER_ID],
-  callbacks: {
-    signInSuccessWithAuthResult: result => {
-      const {additionalUserInfo, credential} = result;
-      if (
-        additionalUserInfo &&
-        credential &&
-        credential.providerId === firebase.auth.TwitterAuthProvider.PROVIDER_ID
-      ) {
-        console.log('userinfo', additionalUserInfo);
-        console.log('credential', credential);
-        var getTweets = firebase.functions().httpsCallable('getTweets');
-        getTweets({
-          credential: credential,
-          userName: additionalUserInfo.profile.screen_name,
-        })
-          .then(result => {
-            console.log('result: ', result);
+export default function FirebaseAuth(props) {
+  const uiConfig = {
+    signInFlow: 'popup',
+    signInOptions: [firebase.auth.TwitterAuthProvider.PROVIDER_ID],
+    callbacks: {
+      signInSuccessWithAuthResult: result => {
+        const {additionalUserInfo, credential} = result;
+        if (
+          additionalUserInfo &&
+          credential &&
+          credential.providerId ===
+            firebase.auth.TwitterAuthProvider.PROVIDER_ID
+        ) {
+          console.log('userinfo', additionalUserInfo);
+          console.log('credential', credential);
+          var getTweets = firebase.functions().httpsCallable('getTweets');
+          getTweets({
+            credential: credential,
+            userName: additionalUserInfo.profile.screen_name,
           })
-          .catch(error => {
-            console.log('error: ', error);
-          });
-      }
-      return false;
+            .then(result => {
+              //console.log('result: ', result);
+              props.onFetchedTweets(result);
+            })
+            .catch(error => {
+              console.log('error: ', error);
+            });
+        }
+        return false;
+      },
     },
-  },
-};
-
-export default function FirebaseAuth() {
+  };
   return (
     <StyledFirebaseAuth uiConfig={uiConfig} firebaseAuth={firebase.auth()} />
   );
