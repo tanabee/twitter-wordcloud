@@ -16,9 +16,9 @@ function App() {
   const [tweets, setTweets] = useState([]);
   const classes = useStyles();
 
-  const onFetchedTweets = tweets => {
-    console.log(tweets);
-    setTweets(tweets);
+  const onFetchedTweets = fetchedTweets => {
+    console.log(fetchedTweets);
+    setTweets(fetchedTweets);
   };
 
   return (
