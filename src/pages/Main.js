@@ -5,7 +5,6 @@ export default function Main(props) {
   const [tweets, setTweets] = useState([]);
 
   useEffect(() => {
-    if (tweets.length > 0) return;
     const userInfo = JSON.parse(localStorage.getItem('USER_INFO'));
     const credential = JSON.parse(localStorage.getItem('CREDENTIAL'));
     console.log(userInfo, credential);
@@ -17,7 +16,7 @@ export default function Main(props) {
       .catch(error => {
         console.log('error: ', error);
       });
-  });
+  }, []);
 
   return <div>main page</div>;
 }
