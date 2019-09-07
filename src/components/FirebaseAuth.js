@@ -1,16 +1,16 @@
 import React from 'react';
 import * as firebase from 'firebase/app';
 import 'firebase/auth';
-import 'firebase/functions';
 import config from 'util/config';
 import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth';
 
 firebase.initializeApp(config);
 
-export default function FirebaseAuth(props) {
+export default function FirebaseAuth() {
   const uiConfig = {
     signInFlow: 'popup',
     signInOptions: [firebase.auth.TwitterAuthProvider.PROVIDER_ID],
+    signInSuccessUrl: '/',
     callbacks: {
       signInSuccessWithAuthResult: result => {
         const {additionalUserInfo, credential} = result;
@@ -22,20 +22,10 @@ export default function FirebaseAuth(props) {
         ) {
           console.log('userinfo', additionalUserInfo);
           console.log('credential', credential);
-          const getTweets = firebase.functions().httpsCallable('getTweets');
-          getTweets({
-            credential: credential,
-            userName: additionalUserInfo.profile.screen_name,
-          })
-            .then(result => {
-              //console.log('result: ', result);
-              props.onFetchedTweets(result);
-            })
-            .catch(error => {
-              console.log('error: ', error);
-            });
+          localStorage.setItem('USER_INFO', additionalUserInfo);
+          localStorage.setItem('CREDENTIAL', credential);
         }
-        return false;
+        return true;
       },
     },
   };
