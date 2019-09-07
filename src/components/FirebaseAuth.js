@@ -1,7 +1,7 @@
 import React from 'react';
 import * as firebase from 'firebase/app';
 import 'firebase/auth';
-import config from 'util/config';
+import config from 'utils/config';
 import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth';
 
 firebase.initializeApp(config);
@@ -17,8 +17,8 @@ export default function FirebaseAuth() {
         if (additionalUserInfo && credential) {
           console.log('userinfo', additionalUserInfo);
           console.log('credential', credential);
-          localStorage.setItem('USER_INFO', additionalUserInfo);
-          localStorage.setItem('CREDENTIAL', credential);
+          localStorage.setItem('USER_INFO', JSON.stringify(additionalUserInfo));
+          localStorage.setItem('CREDENTIAL', JSON.stringify(credential));
         }
         return true;
       },
