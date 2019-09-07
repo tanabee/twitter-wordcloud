@@ -1,20 +1,10 @@
 import React, {useState} from 'react';
-import FirebaseAuth from 'components/FirebaseAuth';
-import {makeStyles} from '@material-ui/core/styles';
-
-const useStyles = makeStyles(theme => ({
-  root: {
-    textAlign: 'center',
-  },
-  image: {
-    width: '400px',
-    maxWidth: '100%',
-  },
-}));
+import {BrowserRouter, Switch, Route} from 'react-router-dom';
+import Login from 'pages/Login';
+import Main from 'pages/Main';
 
 function App() {
   const [tweets, setTweets] = useState([]);
-  const classes = useStyles();
 
   const onFetchedTweets = fetchedTweets => {
     console.log(fetchedTweets);
@@ -22,14 +12,12 @@ function App() {
   };
 
   return (
-    <div className={classes.root}>
-      <img
-        className={classes.image}
-        src="/images/wordcloud.jpg"
-        title="Twitter WordCloud"
-      />
-      <FirebaseAuth onFetchedTweets={onFetchedTweets} />
-    </div>
+    <BrowserRouter>
+      <Switch>
+        <Route path="/login" component={Login} />
+        <Route path="/" component={Main} />
+      </Switch>
+    </BrowserRouter>
   );
 }
 

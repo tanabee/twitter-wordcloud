@@ -22,7 +22,7 @@ export default function FirebaseAuth(props) {
         ) {
           console.log('userinfo', additionalUserInfo);
           console.log('credential', credential);
-          var getTweets = firebase.functions().httpsCallable('getTweets');
+          const getTweets = firebase.functions().httpsCallable('getTweets');
           getTweets({
             credential: credential,
             userName: additionalUserInfo.profile.screen_name,
