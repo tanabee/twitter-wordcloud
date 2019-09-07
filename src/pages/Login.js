@@ -19,7 +19,7 @@ export default function Login(props) {
       <img
         className={classes.image}
         src="/images/wordcloud.jpg"
-        title="Twitter WordCloud"
+        alt="Twitter WordCloud"
       />
       <FirebaseAuth onFetchedTweets={props.onFetchedTweets} />
     </div>
