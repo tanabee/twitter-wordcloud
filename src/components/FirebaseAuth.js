@@ -14,12 +14,7 @@ export default function FirebaseAuth() {
     callbacks: {
       signInSuccessWithAuthResult: result => {
         const {additionalUserInfo, credential} = result;
-        if (
-          additionalUserInfo &&
-          credential &&
-          credential.providerId ===
-            firebase.auth.TwitterAuthProvider.PROVIDER_ID
-        ) {
+        if (additionalUserInfo && credential) {
           console.log('userinfo', additionalUserInfo);
           console.log('credential', credential);
           localStorage.setItem('USER_INFO', additionalUserInfo);
