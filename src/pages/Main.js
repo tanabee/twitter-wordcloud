@@ -1,5 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {getTweets} from 'utils/ApiRequest';
+import {analyzeWithTweets} from 'utils/MorphologicalAnalyzer';
 
 export default function Main(props) {
   const [tweets, setTweets] = useState([]);
@@ -12,6 +13,7 @@ export default function Main(props) {
       .then(result => {
         console.log('result: ', result);
         setTweets(result.data);
+        analyzeWithTweets(result.data);
       })
       .catch(error => {
         console.log('error: ', error);
