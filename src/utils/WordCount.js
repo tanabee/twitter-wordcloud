@@ -37,7 +37,7 @@ const wordCountWithTokens = tokens => {
     .map(word => {
       return {
         text: word,
-        size: wordDict[word],
+        value: wordDict[word],
       };
     })
     .sort((a, b) => {

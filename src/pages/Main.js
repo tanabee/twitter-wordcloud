@@ -1,9 +1,10 @@
 import React, {useEffect, useState} from 'react';
+import ReactWordcloud from 'react-wordcloud';
 import {getTweets} from 'utils/ApiRequest';
 import {wordCount} from 'utils/WordCount';
 
 export default function Main(props) {
-  const [tweets, setTweets] = useState([]);
+  const [words, setWords] = useState([]);
 
   useEffect(() => {
     const userInfo = JSON.parse(localStorage.getItem('USER_INFO'));
@@ -12,11 +13,12 @@ export default function Main(props) {
       .then(result => wordCount(result.data))
       .then(words => {
         console.log(words);
+        setWords(words);
       })
       .catch(error => {
         console.log('error: ', error);
       });
   }, []);
 
-  return <div>main page</div>;
+  return <ReactWordcloud words={words} />;
 }
