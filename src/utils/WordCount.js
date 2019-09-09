@@ -1,19 +1,20 @@
 import kuromoji from 'kuromoji';
 
-export function analyzeWithTweets(tweets) {
+export function wordCount(tweets) {
   const text = tweets.map(tweet => tweet.text).join('\n');
-  kuromoji.builder({dicPath: '/dict'}).build((err, tokenizer) => {
-    if (err) {
-      console.log(err);
-      return;
-    }
-    const tokens = tokenizer.tokenize(text);
-    console.log(tokens);
-    wordCount(tokens);
+  return new Promise((resolve, reject) => {
+    kuromoji.builder({dicPath: '/dict'}).build((err, tokenizer) => {
+      if (err) {
+        reject(err);
+        return;
+      }
+      const tokens = tokenizer.tokenize(text);
+      resolve(wordCountWithTokens(tokens));
+    });
   });
 }
 
-const wordCount = tokens => {
+const wordCountWithTokens = tokens => {
   let wordDict = {};
 
   tokens.forEach(token => {
@@ -45,5 +46,5 @@ const wordCount = tokens => {
       if (a.size > b.size) return -1;
     });
 
-  console.log(words);
+  return words;
 };
