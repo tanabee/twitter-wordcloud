@@ -2,9 +2,25 @@ import React, {useEffect, useState} from 'react';
 import ReactWordcloud from 'react-wordcloud';
 import {getTweets} from 'utils/ApiRequest';
 import {wordCount} from 'utils/WordCount';
+import {makeStyles} from '@material-ui/core/styles';
+import CircularProgress from '@material-ui/core/CircularProgress';
+
+const useStyles = makeStyles(theme => ({
+  progress: {
+    position: 'absolute',
+    margin: 'auto',
+    width: '40px',
+    height: '40px',
+    top: '0',
+    bottom: '0',
+    left: '0',
+    right: '0',
+  },
+}));
 
 export default function Main(props) {
   const [words, setWords] = useState([]);
+  const classes = useStyles();
 
   useEffect(() => {
     const userInfo = JSON.parse(localStorage.getItem('USER_INFO'));
@@ -20,7 +36,7 @@ export default function Main(props) {
       });
   }, []);
 
-  return (
+  return words.length > 0 ? (
     <ReactWordcloud
       options={{
         fontWeight: 'bold',
@@ -30,5 +46,7 @@ export default function Main(props) {
       }}
       words={words}
     />
+  ) : (
+    <CircularProgress className={classes.progress} />
   );
 }
