@@ -20,5 +20,15 @@ export default function Main(props) {
       });
   }, []);
 
-  return <ReactWordcloud words={words} />;
+  return (
+    <ReactWordcloud
+      options={{
+        fontWeight: 'bold',
+        rotations: 2,
+        rotationAngles: [0, 90],
+        scale: 'log',
+      }}
+      words={words}
+    />
+  );
 }
