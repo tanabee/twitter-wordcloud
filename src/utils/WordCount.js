@@ -42,8 +42,8 @@ const wordCountWithTokens = tokens => {
     })
     .sort((a, b) => {
       if (a.size < b.size) return 1;
-      if (a.size === b.size) return 0;
       if (a.size > b.size) return -1;
+      return 0;
     });
 
   return words;
