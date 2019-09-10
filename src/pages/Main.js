@@ -6,6 +6,10 @@ import {makeStyles} from '@material-ui/core/styles';
 import CircularProgress from '@material-ui/core/CircularProgress';
 
 const useStyles = makeStyles(theme => ({
+  wordcloud: {
+    width: '400px',
+    margin: 'auto',
+  },
   progress: {
     position: 'absolute',
     margin: 'auto',
@@ -37,15 +41,18 @@ export default function Main(props) {
   }, []);
 
   return words.length > 0 ? (
-    <ReactWordcloud
-      options={{
-        fontWeight: 'bold',
-        rotations: 2,
-        rotationAngles: [0, 90],
-        scale: 'log',
-      }}
-      words={words}
-    />
+    <div className={classes.wordcloud}>
+      <ReactWordcloud
+        options={{
+          fontWeight: 'bold',
+          rotations: 2,
+          rotationAngles: [0, 90],
+          scale: 'log',
+        }}
+        words={words}
+        size={[400, 400]}
+      />
+    </div>
   ) : (
     <CircularProgress className={classes.progress} />
   );
