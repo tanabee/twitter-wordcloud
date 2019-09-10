@@ -1,7 +1,10 @@
 import kuromoji from 'kuromoji';
 
 export function wordCount(tweets) {
-  const text = tweets.map(tweet => tweet.text).join('\n');
+  const text = tweets
+    .map(tweet => tweet.text)
+    .join('\n')
+    .replace(/http(s)?:\/\/([\w-]+\.)+[\w-]+(\/[\w- ./?%&=]*)?/g, '');
   return new Promise((resolve, reject) => {
     kuromoji.builder({dicPath: '/dict'}).build((err, tokenizer) => {
       if (err) {
@@ -19,13 +22,13 @@ const wordCountWithTokens = tokens => {
 
   tokens.forEach(token => {
     if (
-      !['名詞'].includes(token.pos) ||
-      !['サ変接続'].includes(token.pos_detail_1) ||
-      token.basic_form === '*'
+      !['名詞', '形容詞'].includes(token.pos) ||
+      ['サ変接続'].includes(token.pos_detail_1)
     ) {
       return;
     }
-    const text = token.basic_form;
+    const text =
+      token.basic_form === '*' ? token.surface_form : token.basic_form;
     if (Object.keys(wordDict).includes(text)) {
       wordDict[text]++;
     } else {
